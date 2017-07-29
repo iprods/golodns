@@ -1,0 +1,17 @@
+image: golang:1.8-alpine
+
+before_script:
+    - go get github.com/miekg/dns
+
+stages:
+    - build
+
+test:
+    stage: build
+    script:
+        - go test
+compile:
+    stage: build
+    script:
+        - go build -ldflags "-w"
+
