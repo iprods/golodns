@@ -1,0 +1,4 @@
+package: github.com/iprods/golodns
+import:
+- package: github.com/miekg/dns
+- package: github.com/mitchellh/cli
