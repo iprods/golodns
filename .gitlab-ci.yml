@@ -33,12 +33,12 @@ build:
 pre-release:
     stage: release
     script:
-    - go build -ldflags "-w"
+    - GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "-w"
+    - GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 go build -o build/linux/guild -ldflags "-w" -v
     artifacts:
         name: "golodns"
         paths:
         - golodns
         when: on_success
-    when: manual
     only:
-    - master
+    - tags
