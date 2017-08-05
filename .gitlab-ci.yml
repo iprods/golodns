@@ -30,11 +30,22 @@ build:
         - golodns
         when: on_success
 
-pre-release:
+pre-release-macos:
+    stage: release
+    script:
+    - GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 go build -o build/linux/guild -ldflags "-w" -v
+    artifacts:
+        name: "golodns"
+        paths:
+        - golodns
+        when: on_success
+    only:
+    - tags
+
+pre-release-linux:
     stage: release
     script:
     - GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "-w"
-    - GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 go build -o build/linux/guild -ldflags "-w" -v
     artifacts:
         name: "golodns"
         paths:
