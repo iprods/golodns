@@ -33,7 +33,7 @@ build:
 pre-release-macos:
     stage: release
     script:
-    - GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 go build -o build/linux/guild -ldflags "-w" -v
+    - GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "-w"
     artifacts:
         name: "golodns"
         paths:
