@@ -12,6 +12,11 @@ import (
 func Commands() map[string]cli.CommandFactory {
 	ui := &cli.BasicUi{Writer: os.Stdout, ErrorWriter: os.Stderr}
 	return map[string]cli.CommandFactory{
+		"list": func() (cli.Command, error) {
+			return &command.ListCommand{
+				UI: ui,
+			}, nil
+		},
 		"serve": func() (cli.Command, error) {
 			return &command.ServeCommand{
 				UI: ui,

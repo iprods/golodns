@@ -30,6 +30,15 @@ Then test the setup by doing f.e. a `ping` call:
 ping -c 1 some.dev
 ```
 
+In order to list the current resolvers run:
+
+```
+golodns list
+```
+
+This will show you a list of all installed resolvers or an error if none are present. It also indicates whether the 
+resolver is managed by `golodns` or not.
+
 #### Autocompletion
 
 Autocompletion for bash and zsh goes as simple as:
