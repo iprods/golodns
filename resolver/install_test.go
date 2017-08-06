@@ -3,9 +3,9 @@ package resolver
 import (
 	"os"
 	"testing"
+	"io/ioutil"
 
 	specs "github.com/iprods/golodns/testing"
-	"io/ioutil"
 )
 
 func Test_it_creates_a_new_domain_resolver_with_the_needed_parent_directory(t *testing.T) {
