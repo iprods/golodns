@@ -8,27 +8,19 @@ It is meant to help with local development so that there is no need to fiddle ar
 
 As it is a simple binary you can just download the respective file.
 
+>It is recommended to place the binary to a `${PATH}` accessible location (f.e. `/usr/local/bin` on macOS).
+
 ## Configuration
 
-### Local
+In order to setup your local environment `golodns` provides means to add entries to the `resolver` system.
 
-Per default `golodns` listens on `127.0.0.1:5300`. This can be changed by running `golodns -ip="127.0.0.1:6300"`.
+There are three commands that can help you with managing the domain mappings:
 
-With this set you need additionally to prepare the `resolv` system. Therefore add the following file `/etc/resolver/dev`:
+* `list`: List all registered resolvers (should be empty per default)
+* `install`: Register a new resolver for a specific domain
+* `uninstall`: Uninstall an existing resolver (if created by `golodns`)
 
-```
-sudo mkdir -p /etc/resolver
-sudo tee /etc/resolver/dev >/dev/null <<EOF
-nameserver 127.0.0.1
-port 5300
-EOF
-```
-
-Then test the setup by doing f.e. a `ping` call:
-
-```
-ping -c 1 some.dev
-```
+### List
 
 In order to list the current resolvers run:
 
@@ -36,10 +28,32 @@ In order to list the current resolvers run:
 golodns list
 ```
 
-This will show you a list of all installed resolvers or an error if none are present. It also indicates whether the 
-resolver is managed by `golodns` or not.
+>This outputs something like "No resolvers found." initially as normally there are none. If there are registered ones 
+it will indicate which of them are managed by `golodns`.
 
-#### Autocompletion
+### Install
+
+If you want to setup a new resolver run
+
+```
+sudo golodns install -domain dev -addr 127.0.0.1 -port 5300
+```
+
+to resolve the `dev` TLD via a nameserver listening on `127.0.0.1:5300`.
+
+>You need to run it as `sudo` user as it effectively writes to the `/etc` path which is not writable for normal users.
+
+### Uninstall
+
+If you want to remove a resolver run
+
+```
+sudo golodns uninstall -domain dev
+```
+
+>`golodns` only removes resolvers that where created by it.
+
+### Autocompletion
 
 Autocompletion for bash and zsh goes as simple as:
 
@@ -63,7 +77,14 @@ If you have set up your local environment you just need to run:
 golodns serve
 ```
 
->You need to add special flags like `-port` etc. ofc if desired.
+>You need to add special flags like `-port` etc. ofc if desired / configured. Per default `golodns` resolves via 
+`127.0.0.1:5300` to `127.0.0.1` for domains.
+
+Then test the setup by doing f.e. a `ping` call:
+
+```
+ping -c 1 some.dev
+```
 
 ## Development
 

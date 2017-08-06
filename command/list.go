@@ -26,7 +26,7 @@ func (c *ListCommand) Run(args []string) int {
 		if domain.Managed {
 			entryMessage += " and is managed by golodns"
 		}
-		c.UI.Output(entryMessage)
+		c.UI.Info(entryMessage)
 	}
 	return 0
 }

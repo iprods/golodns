@@ -13,7 +13,7 @@ func Test_it_handles_a_not_existing_directory(t *testing.T) {
 		Path: "/tmp/resolver",
 	}
 	_, err := r.List()
-	spec.Expect(err.Error()).ToEqual("open /tmp/resolver: no such file or directory")
+	spec.Expect(err.Error()).ToEqual("No resolvers found.")
 }
 
 func Test_it_loads_an_existing_entry_with_only_a_nameserver(t *testing.T) {

@@ -15,7 +15,7 @@ func (r *Resolve) List() ([]Domain, error) {
 	var domains = []Domain{}
 	files, err := ioutil.ReadDir(r.Path)
 	if err != nil {
-		return nil, err
+		return nil, errors.New("No resolvers found.")
 	}
 	for _, file := range files {
 		if file.IsDir() {

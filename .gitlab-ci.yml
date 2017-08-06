@@ -3,6 +3,7 @@ image: golang:1.8-alpine
 cache:
   paths:
     - .glide
+    - vendor/
 
 before_script:
 - apk add --no-cache git curl
@@ -20,17 +21,27 @@ test:
     - cd /go/src/github.com/iprods/golodns
     - go test $(go list ./... | grep -v '/vendor/') -v
 
-build:
+build-linux:
     stage: build
     script:
-    - go build
+    - GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build
     artifacts:
         name: "golodns_$CI_JOB_ID"
         paths:
         - golodns
         when: on_success
 
-pre-release-macos:
+build-macos:
+    stage: build
+    script:
+    - GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 go build
+    artifacts:
+        name: "golodns_$CI_JOB_ID"
+        paths:
+        - golodns
+        when: on_success
+
+release-macos:
     stage: release
     script:
     - GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "-w"
@@ -42,7 +53,7 @@ pre-release-macos:
     only:
     - tags
 
-pre-release-linux:
+release-linux:
     stage: release
     script:
     - GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "-w"

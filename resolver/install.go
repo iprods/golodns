@@ -19,9 +19,9 @@ func (r *Resolve) Install(name string, addr string, port string) (Domain, error)
 	files, err := ioutil.ReadDir(path)
 	// The outermost directory is missing so try to create it; Absent by default
 	if err != nil {
-		mkerr := os.Mkdir(path, 0700)
-		if mkerr != nil {
-			return Domain{}, mkerr
+		mkErr := os.Mkdir(path, 0755)
+		if mkErr != nil {
+			return Domain{}, mkErr
 		}
 	}
 	// Check if the domain is already managed

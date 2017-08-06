@@ -36,7 +36,7 @@ func (c *InstallCommand) Run(args []string) int {
 		c.UI.Error(err.Error())
 		return 1
 	}
-	c.UI.Output(fmt.Sprintf("Successfully installed resolver for %s being handled by %s:%s\n", domain.Name, domain.IpAddress, domain.Port))
+	c.UI.Info(fmt.Sprintf("Successfully installed resolver for %s being handled by %s:%s", domain.Name, domain.IpAddress, domain.Port))
 	c.UI.Output(fmt.Sprintf("golodns serve -addr %s -port %s -resolve_to [ip_to_resolve_to]", domain.IpAddress, domain.Port))
 	return 0
 }
