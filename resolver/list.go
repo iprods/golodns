@@ -1,11 +1,13 @@
 package resolver
 
 import (
+	"bufio"
 	"io/ioutil"
 	"os"
-	"bufio"
-	"strings"
 	"regexp"
+	"strings"
+	"errors"
+	"fmt"
 )
 
 type Domain struct {
@@ -15,7 +17,8 @@ type Domain struct {
 	Managed   bool
 }
 
-func (r *Resolve) List() ([]Domain		, error) {
+// Generate a list of installed resolvers by checking and evaluating the files in a given directory.
+func (r *Resolve) List() ([]Domain, error) {
 	var domains = []Domain{}
 	files, err := ioutil.ReadDir(r.Path)
 	if err != nil {
@@ -23,17 +26,20 @@ func (r *Resolve) List() ([]Domain		, error) {
 	}
 	for _, file := range files {
 		if file.IsDir() {
-			// TODO Panic
+			continue
 		}
 		name := file.Name()
-		domain := r.loadDomainResolverInfo(name)
+		domain, err := r.loadDomainResolverInfo(name)
+		if err != nil {
+			return nil, err
+		}
 		domains = append(domains, domain)
 	}
 
 	return domains, nil
 }
 
-func (r *Resolve) loadDomainResolverInfo(name string) Domain {
+func (r *Resolve) loadDomainResolverInfo(name string) (Domain, error) {
 	path := r.Path + "/" + name
 	f, _ := os.Open(path)
 	defer f.Close()
@@ -47,10 +53,15 @@ func (r *Resolve) loadDomainResolverInfo(name string) Domain {
 			managed = true
 			continue
 		}
+		if strings.HasPrefix(line, "#") {
+			continue
+		}
+		parts := strings.Split(line, "#")
+		line = strings.TrimSpace(parts[0])
 		ws := regexp.MustCompile(`\s+`)
-		parts := ws.Split(line, -1)
+		parts = ws.Split(line, -1)
 		if len(parts) != 2 {
-			// TODO Panic
+			return Domain{}, errors.New(fmt.Sprintf("Unexpected line. Found %d parts.", len(parts)))
 		}
 		entryType := parts[0]
 		entryValue := parts[1]
@@ -69,5 +80,5 @@ func (r *Resolve) loadDomainResolverInfo(name string) Domain {
 		Port:      port,
 		Managed:   managed,
 	}
-	return domain
+	return domain, nil
 }

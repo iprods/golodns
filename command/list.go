@@ -41,6 +41,6 @@ Usage: golodns list
 }
 
 func (c *ListCommand) Synopsis() string {
-	return "List he available resolvers"
+	return "List the available resolvers"
 }
 
