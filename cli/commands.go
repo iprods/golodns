@@ -10,8 +10,29 @@ import (
 
 // Command factory providing all available commands
 func Commands() map[string]cli.CommandFactory {
-	ui := &cli.BasicUi{Writer: os.Stdout, ErrorWriter: os.Stderr}
+	bui := &cli.BasicUi{Writer: os.Stdout, ErrorWriter: os.Stderr}
+	ui := &cli.ColoredUi{
+		InfoColor:  cli.UiColorGreen,
+		WarnColor:  cli.UiColorYellow,
+		ErrorColor: cli.UiColorRed,
+		Ui:         bui,
+	}
 	return map[string]cli.CommandFactory{
+		"list": func() (cli.Command, error) {
+			return &command.ListCommand{
+				UI: ui,
+			}, nil
+		},
+		"install": func() (cli.Command, error) {
+			return &command.InstallCommand{
+				UI: ui,
+			}, nil
+		},
+		"uninstall": func() (cli.Command, error) {
+			return &command.UninstallCommand{
+				UI: ui,
+			}, nil
+		},
 		"serve": func() (cli.Command, error) {
 			return &command.ServeCommand{
 				UI: ui,

@@ -21,8 +21,8 @@ func (s *Server) Start() error {
 		ResolveIp: s.ResolveIp,
 	}
 	server = &dns.Server{
-		Addr: addr,
-		Net: "udp",
+		Addr:    addr,
+		Net:     "udp",
 		Handler: dns.HandlerFunc(handler.handleRequest),
 	}
 	return server.ListenAndServe()

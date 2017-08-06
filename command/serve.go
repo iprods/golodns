@@ -43,9 +43,9 @@ func (c *ServeCommand) Run(args []string) int {
 
 func (c *ServeCommand) Help() string {
 	helpText := `
-Usage: golodns run [flags]
+Usage: golodns serve [flags]
 
-  The run command starts the resolver and listens to the defined address and port.
+  The serve command starts the resolver and listens to the defined address and port.
   The listening address and port can be provided by passing the "-addr" and "-port" flags
 	e.g. -addr=127.0.0.1 -port 5300 (default).
   The resolving address can be provided by passing the "-resolv_to" flag
