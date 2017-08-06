@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/mitchellh/cli"
 	"github.com/iprods/golodns/resolver"
+	"github.com/mitchellh/cli"
 )
 
 type ListCommand struct {
@@ -43,4 +43,3 @@ Usage: golodns list
 func (c *ListCommand) Synopsis() string {
 	return "List the available resolvers"
 }
-

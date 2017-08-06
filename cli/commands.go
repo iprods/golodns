@@ -17,6 +17,11 @@ func Commands() map[string]cli.CommandFactory {
 				UI: ui,
 			}, nil
 		},
+		"install": func() (cli.Command, error) {
+			return &command.InstallCommand{
+				UI: ui,
+			}, nil
+		},
 		"serve": func() (cli.Command, error) {
 			return &command.ServeCommand{
 				UI: ui,

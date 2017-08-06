@@ -2,20 +2,13 @@ package resolver
 
 import (
 	"bufio"
+	"errors"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"regexp"
 	"strings"
-	"errors"
-	"fmt"
 )
-
-type Domain struct {
-	Name      string
-	IpAddress string
-	Port      string
-	Managed   bool
-}
 
 // Generate a list of installed resolvers by checking and evaluating the files in a given directory.
 func (r *Resolve) List() ([]Domain, error) {

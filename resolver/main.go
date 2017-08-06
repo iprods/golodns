@@ -4,6 +4,9 @@ type Resolve struct {
 	Path string
 }
 
-type Entry struct {
-	Domain string
+type Domain struct {
+	Name      string
+	IpAddress string
+	Port      string
+	Managed   bool
 }
